@@ -77,5 +77,24 @@ public class TrainApp {
 
         System.out.println("\nAfter removing first and last bogies:");
         System.out.println(trainOrder);
+
+
+        System.out.println("\n=== Train Formation (LinkedHashSet - Ordered & Unique) ===");
+
+
+        Set<String> formation = new LinkedHashSet<>();
+
+
+        formation.add("Engine");
+        formation.add("Sleeper");
+        formation.add("Cargo");
+        formation.add("Guard");
+
+
+        formation.add("Sleeper");
+
+
+        System.out.println("Final Train Formation:");
+        System.out.println(formation);
     }
 }
