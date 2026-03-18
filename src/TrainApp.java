@@ -96,5 +96,22 @@ public class TrainApp {
 
         System.out.println("Final Train Formation:");
         System.out.println(formation);
+
+        System.out.println("\n=== Bogie Capacity Mapping (HashMap) ===");
+
+
+        Map<String, Integer> bogieCapacity = new HashMap<>();
+
+
+        bogieCapacity.put("Sleeper", 72);
+        bogieCapacity.put("AC Chair", 60);
+        bogieCapacity.put("First Class", 40);
+
+
+        System.out.println("Bogie Capacity Details:");
+
+        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
+            System.out.println(entry.getKey() + " → Capacity: " + entry.getValue());
+        }
     }
 }
