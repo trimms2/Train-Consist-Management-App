@@ -102,6 +102,13 @@ public class TrainApp {
         return false;
     }
 
+    static boolean safeSearch(String[] arr, String key) {
+        if (arr.length == 0) {
+            throw new IllegalStateException("No bogies available for search");
+        }
+        return linearSearch(arr, key);
+    }
+
     public static void main(String[] args) {
 
         List<Bogie> bogies = new ArrayList<>();
@@ -142,13 +149,9 @@ public class TrainApp {
         String[] bogieNames = {"Sleeper","AC Chair","First Class","General","Luxury"};
         Arrays.sort(bogieNames);
 
-        String[] bogieIds = {"BG309","BG101","BG550","BG205","BG412"};
-        String searchKey = "BG205";
+        String[] bogieIds = {"BG101","BG205","BG309","BG412","BG550"};
+        boolean result = safeSearch(bogieIds, "BG205");
 
-        boolean foundLinear = linearSearch(bogieIds, searchKey);
-        boolean foundBinary = binarySearch(bogieIds, searchKey);
-
-        System.out.println("Linear Search: " + foundLinear);
-        System.out.println("Binary Search: " + foundBinary);
+        System.out.println("Search Result: " + result);
     }
 }
