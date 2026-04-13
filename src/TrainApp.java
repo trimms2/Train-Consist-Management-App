@@ -1,17 +1,16 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
-// ✅ Bogie class (UC7)
+// ✅ Bogie class (Used in UC7 & UC8)
 class Bogie {
     String name;
     int capacity;
 
-    // Constructor
     Bogie(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
     }
 
-    // For printing
     @Override
     public String toString() {
         return name + " (Capacity: " + capacity + ")";
@@ -60,7 +59,7 @@ public class TrainApp {
         System.out.println("Unique Bogie IDs:");
         System.out.println(bogieIds);
 
-        // ---------------- LINKED LIST ----------------
+
         System.out.println("\n=== Ordered Train Consist (LinkedList) ===");
 
         LinkedList<String> trainOrder = new LinkedList<>();
@@ -85,7 +84,7 @@ public class TrainApp {
         System.out.println("\nAfter removing first and last bogies:");
         System.out.println(trainOrder);
 
-        // ---------------- LINKED HASH SET ----------------
+
         System.out.println("\n=== Train Formation (LinkedHashSet - Ordered & Unique) ===");
 
         Set<String> formation = new LinkedHashSet<>();
@@ -100,7 +99,7 @@ public class TrainApp {
         System.out.println("Final Train Formation:");
         System.out.println(formation);
 
-        // ---------------- HASH MAP ----------------
+
         System.out.println("\n=== Bogie Capacity Mapping (HashMap) ===");
 
         Map<String, Integer> bogieCapacity = new HashMap<>();
@@ -118,14 +117,13 @@ public class TrainApp {
 
         System.out.println("\n=== UC7: Sorted Passenger Bogies by Capacity ===");
 
-
         List<Bogie> bogies = new ArrayList<>();
 
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 60));
         bogies.add(new Bogie("First Class", 40));
 
-        // Sort using Comparator (Ascending)
+
         bogies.sort(Comparator.comparingInt(b -> b.capacity));
 
         System.out.println("\nBogies sorted by capacity (Ascending):");
@@ -141,5 +139,23 @@ public class TrainApp {
             System.out.println(b);
         }
 
+
+        System.out.println("\n=== UC8: Filter Passenger Bogies Using Streams ===");
+
+
+        List<Bogie> filteredBogies = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
+
+        System.out.println("\nFiltered Bogies (Capacity > 60):");
+        for (Bogie b : filteredBogies) {
+            System.out.println(b);
+        }
+
+
+        System.out.println("\nOriginal Bogie List (Unchanged):");
+        for (Bogie b : bogies) {
+            System.out.println(b);
+        }
     }
 }
