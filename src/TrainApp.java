@@ -1,5 +1,7 @@
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 class Bogie {
     String name;
@@ -10,7 +12,6 @@ class Bogie {
         this.capacity = capacity;
     }
 
-    @Override
     public String toString() {
         return name + " (Capacity: " + capacity + ")";
     }
@@ -163,5 +164,32 @@ public class TrainApp {
                 .reduce(0, Integer::sum);
 
         System.out.println("Total Seating Capacity: " + totalCapacity);
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("\n===================================");
+        System.out.println("UC11 - Validate Train ID and Cargo Code");
+        System.out.println("===================================");
+
+        System.out.print("\nEnter Train ID (Format: TRN-1234): ");
+        String trainId = sc.nextLine();
+
+        System.out.print("Enter Cargo Code (Format: PET-AB): ");
+        String cargoCode = sc.nextLine();
+
+        Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
+        Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
+
+        Matcher trainMatcher = trainPattern.matcher(trainId);
+        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+
+        boolean isTrainValid = trainMatcher.matches();
+        boolean isCargoValid = cargoMatcher.matches();
+
+        System.out.println("\nValidation Results:");
+        System.out.println("Train ID Valid: " + isTrainValid);
+        System.out.println("Cargo Code Valid: " + isCargoValid);
+
+        System.out.println("\nUC11 validation completed...");
     }
 }
