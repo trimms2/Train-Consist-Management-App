@@ -69,9 +69,8 @@ public class TrainApp {
     }
 
     static void bubbleSort(int[] arr) {
-        int n = arr.length;
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - i - 1; j++) {
                 if (arr[j] > arr[j + 1]) {
                     int temp = arr[j];
                     arr[j] = arr[j + 1];
@@ -79,6 +78,15 @@ public class TrainApp {
                 }
             }
         }
+    }
+
+    static boolean linearSearch(String[] arr, String key) {
+        for (String id : arr) {
+            if (id.equals(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -115,42 +123,17 @@ public class TrainApp {
         assignCargo(goods.get(0), "Petroleum");
         assignCargo(goods.get(1), "Petroleum");
 
-        List<Bogie> largeList = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
-            largeList.add(new Bogie("Type" + i, i % 100));
-        }
-
-        long startLoop = System.nanoTime();
-        List<Bogie> loopResult = new ArrayList<>();
-        for (Bogie b : largeList) {
-            if (b.capacity > 60) loopResult.add(b);
-        }
-        long endLoop = System.nanoTime();
-
-        long startStream = System.nanoTime();
-        List<Bogie> streamResult = largeList.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-        long endStream = System.nanoTime();
-
-        try {
-            PassengerBogie p1 = new PassengerBogie("Sleeper", 72);
-        } catch (InvalidCapacityException e) {
-            System.out.println(e.getMessage());
-        }
-
         int[] capacities = {72, 56, 24, 70, 60};
         bubbleSort(capacities);
-
-        System.out.println("Sorted Capacities:");
-        for (int c : capacities) {
-            System.out.print(c + " ");
-        }
 
         String[] bogieNames = {"Sleeper","AC Chair","First Class","General","Luxury"};
         Arrays.sort(bogieNames);
 
-        System.out.println("\nSorted Bogie Names:");
-        System.out.println(Arrays.toString(bogieNames));
+        String[] bogieIds = {"BG101","BG205","BG309","BG412","BG550"};
+        String searchKey = "BG309";
+
+        boolean found = linearSearch(bogieIds, searchKey);
+
+        System.out.println("Search Result for " + searchKey + ": " + found);
     }
 }
