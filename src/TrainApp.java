@@ -17,6 +17,20 @@ class Bogie {
     }
 }
 
+class GoodsBogie {
+    String type;
+    String cargo;
+
+    GoodsBogie(String type, String cargo) {
+        this.type = type;
+        this.cargo = cargo;
+    }
+
+    public String toString() {
+        return type + " → " + cargo;
+    }
+}
+
 public class TrainApp {
 
     public static void main(String[] args) {
@@ -110,7 +124,7 @@ public class TrainApp {
             System.out.println(entry.getKey() + " → Capacity: " + entry.getValue());
         }
 
-        System.out.println("\n=== UC7: Sorted Passenger Bogies by Capacity ===");
+        System.out.println("\n=== UC7 ===");
 
         List<Bogie> bogies = new ArrayList<>();
 
@@ -120,35 +134,27 @@ public class TrainApp {
 
         bogies.sort(Comparator.comparingInt(b -> b.capacity));
 
-        System.out.println("\nBogies sorted by capacity (Ascending):");
         for (Bogie b : bogies) {
             System.out.println(b);
         }
 
         bogies.sort((b1, b2) -> b2.capacity - b1.capacity);
 
-        System.out.println("\nBogies sorted by capacity (Descending):");
         for (Bogie b : bogies) {
             System.out.println(b);
         }
 
-        System.out.println("\n=== UC8: Filter Passenger Bogies Using Streams ===");
+        System.out.println("\n=== UC8 ===");
 
         List<Bogie> filteredBogies = bogies.stream()
                 .filter(b -> b.capacity > 60)
                 .collect(Collectors.toList());
 
-        System.out.println("\nFiltered Bogies (Capacity > 60):");
         for (Bogie b : filteredBogies) {
             System.out.println(b);
         }
 
-        System.out.println("\nOriginal Bogie List (Unchanged):");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
-
-        System.out.println("\n=== UC9: Group Bogies by Type ===");
+        System.out.println("\n=== UC9 ===");
 
         Map<String, List<Bogie>> grouped = bogies.stream()
                 .collect(Collectors.groupingBy(b -> b.name));
@@ -157,7 +163,7 @@ public class TrainApp {
             System.out.println(entry.getKey() + " → " + entry.getValue());
         }
 
-        System.out.println("\n=== UC10: Total Seating Capacity ===");
+        System.out.println("\n=== UC10 ===");
 
         int totalCapacity = bogies.stream()
                 .map(b -> b.capacity)
@@ -167,29 +173,42 @@ public class TrainApp {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("\n===================================");
-        System.out.println("UC11 - Validate Train ID and Cargo Code");
-        System.out.println("===================================");
+        System.out.println("\n=== UC11 ===");
 
-        System.out.print("\nEnter Train ID (Format: TRN-1234): ");
+        System.out.print("Enter Train ID (TRN-1234): ");
         String trainId = sc.nextLine();
 
-        System.out.print("Enter Cargo Code (Format: PET-AB): ");
+        System.out.print("Enter Cargo Code (PET-AB): ");
         String cargoCode = sc.nextLine();
 
         Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
         Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
 
-        Matcher trainMatcher = trainPattern.matcher(trainId);
-        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+        boolean isTrainValid = trainPattern.matcher(trainId).matches();
+        boolean isCargoValid = cargoPattern.matcher(cargoCode).matches();
 
-        boolean isTrainValid = trainMatcher.matches();
-        boolean isCargoValid = cargoMatcher.matches();
-
-        System.out.println("\nValidation Results:");
         System.out.println("Train ID Valid: " + isTrainValid);
         System.out.println("Cargo Code Valid: " + isCargoValid);
 
-        System.out.println("\nUC11 validation completed...");
+        System.out.println("\n=== UC12 ===");
+
+        List<GoodsBogie> goodsBogies = new ArrayList<>();
+
+        goodsBogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        goodsBogies.add(new GoodsBogie("Rectangular", "Coal"));
+        goodsBogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+
+        boolean isSafe = goodsBogies.stream()
+                .allMatch(g ->
+                        !g.type.equalsIgnoreCase("Cylindrical") ||
+                                g.cargo.equalsIgnoreCase("Petroleum")
+                );
+
+        System.out.println("Goods Bogies:");
+        for (GoodsBogie g : goodsBogies) {
+            System.out.println(g);
+        }
+
+        System.out.println("Safety Compliant: " + isSafe);
     }
 }
