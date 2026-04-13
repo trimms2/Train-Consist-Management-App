@@ -47,13 +47,29 @@ class PassengerBogie {
         this.type = type;
         this.capacity = capacity;
     }
+}
 
-    public String toString() {
-        return type + " (Capacity: " + capacity + ")";
+class CargoSafetyException extends RuntimeException {
+    public CargoSafetyException(String message) {
+        super(message);
     }
 }
 
 public class TrainApp {
+
+    static void assignCargo(GoodsBogie bogie, String cargo) {
+        try {
+            if (bogie.type.equalsIgnoreCase("Rectangular") && cargo.equalsIgnoreCase("Petroleum")) {
+                throw new CargoSafetyException("Unsafe cargo assignment");
+            }
+            bogie.cargo = cargo;
+            System.out.println("Assigned: " + bogie);
+        } catch (CargoSafetyException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            System.out.println("Assignment attempt completed");
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -76,7 +92,6 @@ public class TrainApp {
                 .reduce(0, Integer::sum);
 
         Scanner sc = new Scanner(System.in);
-
         String trainId = sc.nextLine();
         String cargoCode = sc.nextLine();
 
@@ -84,13 +99,12 @@ public class TrainApp {
         boolean cargoValid = Pattern.matches("PET-[A-Z]{2}", cargoCode);
 
         List<GoodsBogie> goods = new ArrayList<>();
-        goods.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        goods.add(new GoodsBogie("Rectangular", "Coal"));
+        goods.add(new GoodsBogie("Cylindrical", ""));
+        goods.add(new GoodsBogie("Rectangular", ""));
 
-        boolean safe = goods.stream().allMatch(g ->
-                !g.type.equalsIgnoreCase("Cylindrical") ||
-                        g.cargo.equalsIgnoreCase("Petroleum")
-        );
+        assignCargo(goods.get(0), "Petroleum");
+        assignCargo(goods.get(1), "Petroleum");
+        assignCargo(goods.get(1), "Coal");
 
         List<Bogie> largeList = new ArrayList<>();
         for (int i = 0; i < 100000; i++) {
@@ -112,9 +126,7 @@ public class TrainApp {
 
         try {
             PassengerBogie p1 = new PassengerBogie("Sleeper", 72);
-            PassengerBogie p2 = new PassengerBogie("AC Chair", 60);
-            System.out.println(p1);
-            System.out.println(p2);
+            PassengerBogie p2 = new PassengerBogie("AC", 60);
         } catch (InvalidCapacityException e) {
             System.out.println(e.getMessage());
         }
