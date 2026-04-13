@@ -41,9 +41,7 @@ class PassengerBogie {
     int capacity;
 
     PassengerBogie(String type, int capacity) throws InvalidCapacityException {
-        if (capacity <= 0) {
-            throw new InvalidCapacityException("Capacity must be greater than zero");
-        }
+        if (capacity <= 0) throw new InvalidCapacityException("Capacity must be greater than zero");
         this.type = type;
         this.capacity = capacity;
     }
@@ -63,11 +61,23 @@ public class TrainApp {
                 throw new CargoSafetyException("Unsafe cargo assignment");
             }
             bogie.cargo = cargo;
-            System.out.println("Assigned: " + bogie);
         } catch (CargoSafetyException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
             System.out.println("Assignment attempt completed");
+        }
+    }
+
+    static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
         }
     }
 
@@ -104,7 +114,6 @@ public class TrainApp {
 
         assignCargo(goods.get(0), "Petroleum");
         assignCargo(goods.get(1), "Petroleum");
-        assignCargo(goods.get(1), "Coal");
 
         List<Bogie> largeList = new ArrayList<>();
         for (int i = 0; i < 100000; i++) {
@@ -126,9 +135,16 @@ public class TrainApp {
 
         try {
             PassengerBogie p1 = new PassengerBogie("Sleeper", 72);
-            PassengerBogie p2 = new PassengerBogie("AC", 60);
         } catch (InvalidCapacityException e) {
             System.out.println(e.getMessage());
+        }
+
+        int[] capacities = {72, 56, 24, 70, 60};
+        bubbleSort(capacities);
+
+        System.out.println("Sorted Capacities:");
+        for (int c : capacities) {
+            System.out.print(c + " ");
         }
     }
 }
