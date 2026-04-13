@@ -82,9 +82,22 @@ public class TrainApp {
 
     static boolean linearSearch(String[] arr, String key) {
         for (String id : arr) {
-            if (id.equals(key)) {
-                return true;
-            }
+            if (id.equals(key)) return true;
+        }
+        return false;
+    }
+
+    static boolean binarySearch(String[] arr, String key) {
+        Arrays.sort(arr);
+        int low = 0, high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int cmp = key.compareTo(arr[mid]);
+
+            if (cmp == 0) return true;
+            else if (cmp < 0) high = mid - 1;
+            else low = mid + 1;
         }
         return false;
     }
@@ -129,11 +142,13 @@ public class TrainApp {
         String[] bogieNames = {"Sleeper","AC Chair","First Class","General","Luxury"};
         Arrays.sort(bogieNames);
 
-        String[] bogieIds = {"BG101","BG205","BG309","BG412","BG550"};
-        String searchKey = "BG309";
+        String[] bogieIds = {"BG309","BG101","BG550","BG205","BG412"};
+        String searchKey = "BG205";
 
-        boolean found = linearSearch(bogieIds, searchKey);
+        boolean foundLinear = linearSearch(bogieIds, searchKey);
+        boolean foundBinary = binarySearch(bogieIds, searchKey);
 
-        System.out.println("Search Result for " + searchKey + ": " + found);
+        System.out.println("Linear Search: " + foundLinear);
+        System.out.println("Binary Search: " + foundBinary);
     }
 }
